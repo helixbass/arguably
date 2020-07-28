@@ -289,6 +289,8 @@ imports:
   GraphQLList: graphql
   GraphQLUnionType: graphql
   InterpolationWithTheme: '@emotion/core'
+  Global: '@emotion/core'
+  css: '@emotion/core'
   gsap:
     module: 'gsap'
     default: true

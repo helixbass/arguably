@@ -7,8 +7,8 @@ import {makeStyles} from 'utils/style'
 import colors from 'utils/colors'
 import {addRefsContext, addRefsContextProvider} from 'utils/refsContext'
 import {addRefs} from 'utils/refs'
-import {gothicFontStyles} from 'utils/typography'
 import addTypekit from 'utils/addTypekit'
+import {gothicFontFamily, futuraFontFamily} from 'utils/typography'
 
 const BLUR_FILTER_ID = 'blur-filter'
 const DRUG_MASK_ID = 'drug-mask'
@@ -45,8 +45,6 @@ const FilterDef: FC = flowMax(
             x="50%"
             y="50%"
             textAnchor="middle"
-            css={styles.drug}
-            dy="50"
           >
             drug
           </text>
@@ -77,17 +75,20 @@ const App: FC = flowMax(
   addRefs,
   addRefsContextProvider,
   addLayoutEffectOnMount(({refs}) => () => {
-    const {
-      blur,
-      image,
-      // drug,
-      black,
-    } = refs
+    const {blur, image, drug, black} = refs
 
     gsap
       .timeline({paused: true})
       .set(black, {
         opacity: 0,
+      })
+      .set(drug, {
+        fontFamily: gothicFontFamily,
+        fontWeight: 800,
+        textTransform: 'uppercase',
+        fontSize: 235,
+        letterSpacing: 1.5,
+        y: 50,
       })
       .to(
         blur,
@@ -106,13 +107,38 @@ const App: FC = flowMax(
         },
         '+=0.2',
       )
-      .to(image, {
-        x: 50,
-        y: 21,
-        duration: 20,
-        repeat: -1,
-        yoyo: true,
-      })
+      .addLabel('firstBlackDone')
+      .set(
+        drug,
+        {
+          fontFamily: futuraFontFamily,
+          fontWeight: 700,
+          textTransform: 'none',
+          fontSize: 155,
+          letterSpacing: 0,
+          y: 20,
+        },
+        '+=0.2',
+      )
+      .to(
+        drug,
+        {
+          opacity: 0,
+          duration: 0.01,
+        },
+        '+=0.3',
+      )
+      .to(
+        image,
+        {
+          x: 50,
+          y: 21,
+          duration: 20,
+          repeat: -1,
+          yoyo: true,
+        },
+        'firstBlackDone',
+      )
       .play()
   }),
   () => (
@@ -133,11 +159,5 @@ const styles = makeStyles({
     justifyContent: 'center',
     color: colors.white,
     minHeight: '100vh',
-  },
-  drug: {
-    fontSize: 235,
-    ...gothicFontStyles,
-    textTransform: 'uppercase',
-    letterSpacing: 1.5,
   },
 })
