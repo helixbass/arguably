@@ -1,9 +1,9 @@
-import {UnchangedProps} from 'ad-hok'
+import {CurriedUnchangedProps} from 'ad-hok'
 import {zipObject} from 'lodash'
 
 type TapType = <TProps>(
   callback: (props: TProps) => void,
-) => UnchangedProps<TProps>
+) => CurriedUnchangedProps<TProps>
 
 export const tap: TapType = (callback) => (props) => {
   callback(props)
@@ -11,7 +11,7 @@ export const tap: TapType = (callback) => (props) => {
   return props
 }
 
-type LogType = <TProps>(key: string) => UnchangedProps<TProps>
+type LogType = <TProps>(key: string) => CurriedUnchangedProps<TProps>
 
 export const log: LogType = (key) => tap((props) => console.log({[key]: props}))
 

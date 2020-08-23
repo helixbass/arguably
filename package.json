@@ -15,16 +15,17 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-transition-group": "^4.4.0",
-    "ad-hok": "^0.1.0",
-    "ad-hok-utils": "^0.0.4",
+    "ad-hok": "^0.1.1",
+    "ad-hok-utils": "^0.1.0-beta.1",
     "color": "^3.1.2",
     "customize-cra": "^1.0.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-ad-hok": "github:helixbass/eslint-plugin-ad-hok#eslint-plugin-ad-hok-v0.2.2-dev.1-gitpkg",
+    "eslint-plugin-ad-hok": "^0.3.0-beta.3",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-known-imports": "github:helixbass/eslint-plugin-known-imports#eslint-plugin-known-imports-v0.0.15-dev.2-gitpkg",
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-styles-object": "^0.0.4",
+    "fontfaceobserver": "^2.1.0",
     "gsap": "^3.3.3",
     "lodash": "^4.17.15",
     "prettier": "^2.0.5",
@@ -49,7 +50,8 @@
       "prettier",
       "plugin:known-imports/recommended-react",
       "plugin:known-imports/recommended-typescript",
-      "plugin:ad-hok/recommended"
+      "plugin:ad-hok/recommended",
+      "plugin:ad-hok/recommended-typescript"
     ],
     "plugins": [
       "prettier",
@@ -89,7 +91,6 @@
           "newlines-between": "always"
         }
       ],
-      "ad-hok/dependencies": "error",
       "ad-hok/require-adddisplayname": "error"
     },
     "settings": {
@@ -107,7 +108,7 @@
         ".jsx"
       ],
       "import/internal-regex": "^(components|utils|graphql|config)/|^(App|theme|i18n-init)$",
-      "ad-hok/should-fix-flow-flowmax": true
+      "ad-hok/should-fix-importable-names": true
     }
   },
   "browserslist": {
@@ -121,5 +122,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/fontfaceobserver": "^0.0.6"
   }
 }

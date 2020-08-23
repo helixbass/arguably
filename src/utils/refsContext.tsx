@@ -1,6 +1,6 @@
-import getContextHelpers from 'utils/getContextHelpers'
+import {getContextHelpers, toObjectKeys} from 'ad-hok-utils'
+
 import {RefsProps} from 'utils/refs'
-import {toObjectKeys} from 'utils/fp'
 
 const [addRefsContextProvider, addRefsContext] = getContextHelpers<RefsProps>(
   toObjectKeys(['refs', 'setRef']),

@@ -298,10 +298,15 @@ imports:
   addLayoutEffectOnMount: ad-hok-utils
   cleanupProps: ad-hok-utils
   addExtendedHandlers: ad-hok-utils
+  getContextHelpers: ad-hok-utils
+  toObjectKeys: ad-hok-utils
   colorUtil:
     module: color
     default: true
   Transition: react-transition-group
+  FontFaceObserver:
+    module: fontfaceobserver
+    default: true
 whitelist:
   - directory: src/
     allowed: [filename, named]

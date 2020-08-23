@@ -1,5 +1,5 @@
 import React, {FC} from 'react'
-import {flowMax, addDisplayName} from 'ad-hok'
+import {flowMax, addDisplayName, addEffect} from 'ad-hok'
 import {addLayoutEffectOnMount} from 'ad-hok-utils'
 import gsap from 'gsap'
 
@@ -9,6 +9,7 @@ import {addRefsContext, addRefsContextProvider} from 'utils/refsContext'
 import {addRefs} from 'utils/refs'
 import addTypekit from 'utils/addTypekit'
 import {gothicFontFamily, futuraFontFamily} from 'utils/typography'
+import addAreFontsLoaded from 'utils/addAreFontsLoaded'
 
 const BLUR_FILTER_ID = 'blur-filter'
 const DRUG_MASK_ID = 'drug-mask'
@@ -72,79 +73,87 @@ const FilterDef: FC = flowMax(
 const App: FC = flowMax(
   addDisplayName('App'),
   addTypekit('tmz1qbf'),
+  addAreFontsLoaded([gothicFontFamily, futuraFontFamily]),
   addRefs,
   addRefsContextProvider,
   addLayoutEffectOnMount(({refs}) => () => {
-    const {blur, image, drug, black} = refs
+    const {black} = refs
 
-    gsap
-      .timeline({paused: true})
-      .set(black, {
-        opacity: 0,
-      })
-      .set(drug, {
-        fontFamily: gothicFontFamily,
-        fontWeight: 800,
-        textTransform: 'uppercase',
-        fontSize: 235,
-        letterSpacing: 1.5,
-        y: 50,
-      })
-      .to(
-        blur,
-        {
-          attr: {stdDeviation: 0},
-          duration: 0.2,
-          ease: 'linear',
-        },
-        0.6,
-      )
-      .to(
-        black,
-        {
-          opacity: 1,
-          duration: 0.01,
-        },
-        '+=0.2',
-      )
-      .addLabel('firstBlackDone')
-      .set(
-        drug,
-        {
-          fontFamily: futuraFontFamily,
-          fontWeight: 700,
-          textTransform: 'none',
-          fontSize: 155,
-          letterSpacing: 0,
-          y: 20,
-        },
-        '+=0.2',
-      )
-      .to(
-        drug,
-        {
-          opacity: 0,
-          duration: 0.01,
-        },
-        '+=0.3',
-      )
-      .to(
-        image,
-        {
-          x: 50,
-          y: 21,
-          duration: 20,
-          repeat: -1,
-          yoyo: true,
-        },
-        'firstBlackDone',
-      )
-      .play()
+    gsap.set(black, {
+      opacity: 0,
+    })
   }),
+  addEffect(
+    ({refs, areFontsLoaded}) => () => {
+      if (!areFontsLoaded) return
+      const {blur, image, drug, black} = refs
+
+      gsap
+        .timeline({paused: true})
+        .set(drug, {
+          fontFamily: gothicFontFamily,
+          fontWeight: 800,
+          textTransform: 'uppercase',
+          fontSize: 235,
+          letterSpacing: 1.5,
+          y: 50,
+        })
+        .to(
+          blur,
+          {
+            attr: {stdDeviation: 0},
+            duration: 0.2,
+            ease: 'linear',
+          },
+          0.6,
+        )
+        .to(
+          black,
+          {
+            opacity: 1,
+            duration: 0.01,
+          },
+          '+=0.2',
+        )
+        .addLabel('firstBlackDone')
+        .set(
+          drug,
+          {
+            fontFamily: futuraFontFamily,
+            fontWeight: 700,
+            textTransform: 'none',
+            fontSize: 155,
+            letterSpacing: 0,
+            y: 20,
+          },
+          '+=0.2',
+        )
+        .to(
+          drug,
+          {
+            opacity: 0,
+            duration: 0.01,
+          },
+          '+=0.3',
+        )
+        .to(
+          image,
+          {
+            x: 50,
+            y: 21,
+            duration: 20,
+            repeat: -1,
+            yoyo: true,
+          },
+          'firstBlackDone',
+        )
+        .play()
+    },
+    ['areFontsLoaded'],
+  ),
   () => (
     <div css={styles.container}>
       <FilterDef />
-      <span>Hello world!</span>
     </div>
   ),
 )
